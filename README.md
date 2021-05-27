@@ -1,4 +1,4 @@
-[![Made-In-Python](https://img.shields.io/badge/Made%20In-PYTHON-green?style=for-the-badge&logo=appveyor)]
+![Made-In-Python](https://img.shields.io/badge/Made%20In-PYTHON-green?style=for-the-badge&logo=appveyor)
 
 - [About](#about)
   - [Libraries/Modules](#librariesmodules)
