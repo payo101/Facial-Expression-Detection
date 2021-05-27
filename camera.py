@@ -8,7 +8,7 @@ Created on Thu May 27 11:53:27 2021
 import numpy as np
 import cv2 as cv
 
-faceDetector = cv.CascadeClassifier("haarcascade_frontalface_default.xml")
+faceDetector = cv.CascadeClassifier(cv.data.haarcascades + "haarcascade_frontalface_default.xml")
 cap = cv.VideoCapture(0)
 
 while True:
