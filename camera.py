@@ -6,10 +6,20 @@ Created on Thu May 27 11:53:27 2021
 """
 
 import numpy as np
-import cv2 as cv
+import cv2
+from keras.models import model_from_json
 
-faceDetector = cv.CascadeClassifier(cv.data.haarcascades + "haarcascade_frontalface_default.xml")
-cap = cv.VideoCapture(0)
+#face detector
+faceDetector = cv2.CascadeClassifier(
+    cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
+#classifier
+with open('model.json', 'r') as file:
+    model_json = file.read()
+    model = model_from_json(model_json)
+model.load_weights('weights.h5')
+
+
+cap = cv2.VideoCapture(0)
 
 while True:
     ret, frame = cap.read()
@@ -17,15 +27,28 @@ while True:
         print("Exiting ...")
         break
     
-    #detection
-    gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
-    rects = faceDetector.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5)
+    frame = cv2.flip(frame, 1)
+    # detection
+    face_img = np.array([])
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    rects = faceDetector.detectMultiScale(
+        gray, scaleFactor=1.23, minNeighbors=5)
     for (x, y, w, h) in rects:
-    	cv.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-        
-    cv.imshow('frame', frame)
-    if cv.waitKey(1) == ord('q'):
+
+        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+
+        #input preprocessing
+        face_img = gray[y:y+h, x:x+w]
+        roi = cv2.resize(face_img, (48, 48))
+        roi = roi[np.newaxis, : , : ,np.newaxis]
+
+        #prediction
+        preds = model.predict(roi)
+        print(np.argmax(preds))
+
+    cv2.imshow('frame', frame)
+    if cv2.waitKey(1) == ord('q'):
         break
 
 cap.release()
-cv.destroyAllWindows()
+cv2.destroyAllWindows()
