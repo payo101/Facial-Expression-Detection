@@ -24,18 +24,19 @@ The architecture of the model is as follows:
 - Python
 - Keras
 - OpenCV
+- Numpy
 # Pre-Requisites
+**Do install these before running the script**
 - Python 3.7+
+- Tensorflow
+- OpenCV
+- Numpy
 # Installation
 1. First clone the project
 ```bash
-git clone <repository-link>
+git clone https://github.com/payo101/Facial-Expression-Detection.git
 ```
-2. Install the required modules(To Be Added)
-```bash
-pip install requirements.txt
-```
-3. Start the script
+1. Start the script
 ```bash
 python3 camera.py
 ```
